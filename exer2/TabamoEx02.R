@@ -16,10 +16,10 @@ ComputeDeterminant <- function(mat) {
   if (!SquareMatrix(mat)) {
     return(NA)
   }
-  
+
   n <- ncol(mat)
-  
-  sum <-  0
+
+  sum <- 0
   # Base Case
   if (n == 1) {
     return(mat[1, 1])
@@ -27,10 +27,10 @@ ComputeDeterminant <- function(mat) {
   # Recursive Case
   else {
     for (j in 1:n) {
-      sum <- sum + (-1) ^ (1 + j) * mat[1, j] * ComputeDeterminant(as.matrix(mat[-1, -j]))
+      sum <- sum + (-1)^(1 + j) * mat[1, j] * ComputeDeterminant(as.matrix(mat[-1, -j]))
     }
   }
-  
+
   # Return the determinant
   sum
 }
@@ -42,7 +42,7 @@ MatrixMinor <- function(mat, i, j) {
   if (i < 1 || i > nrow(mat) || j < 1 || j > ncol(mat)) {
     return(NA)
   }
-  
+
   # Return the determinant of the sub-matrix removing row i and j
   ComputeDeterminant(as.matrix(mat[-i, -j]))
 }
@@ -51,13 +51,13 @@ MatrixMinor <- function(mat, i, j) {
 # Returns NA if the parameters are invalid
 MatrixCofactor <- function(mat, i, j) {
   # Check if the i and j parameters are in-bounds
-  minor <-  MatrixMinor(mat, i , j)
+  minor <- MatrixMinor(mat, i, j)
   if (is.na(minor)) {
     return(NA)
   }
-  
+
   # Return the cofactor of the matrix at i and j
-  (-1) ^ (i + j) * minor
+  (-1)^(i + j) * minor
 }
 
 # Returns the adjoint of the square matrix mat
@@ -67,19 +67,21 @@ MatrixAdjoint <- function(mat) {
   if (!SquareMatrix(mat)) {
     return(NA)
   }
-  
+
   # Create a matrix of cofactors
-  rows <-  nrow(mat)
-  cols <-  ncol(mat)
-  adjoint <-  matrix(data = NA,
-                     nrow = rows,
-                     ncol = cols)
+  rows <- nrow(mat)
+  cols <- ncol(mat)
+  adjoint <- matrix(
+    data = NA,
+    nrow = rows,
+    ncol = cols
+  )
   for (i in 1:rows) {
     for (j in 1:cols) {
       adjoint[i, j] <- MatrixCofactor(mat, i, j)
     }
   }
-  
+
   # Transpose the matrix of cofactors and return
   t(adjoint)
 }
@@ -87,12 +89,12 @@ MatrixAdjoint <- function(mat) {
 # Returns the inverse of a square matrix
 # Returns NA if the matrix is not square or if the matrix is singular
 MatrixInverse <- function(mat) {
-  matrixDet = ComputeDeterminant(mat)
-  
+  matrixDet <- ComputeDeterminant(mat)
+
   if (!SquareMatrix(A) || matrixDet == 0) {
     return(NA)
   }
-  
+
   # Solve the inverse matrix and return
   (1 / matrixDet) * MatrixAdjoint(mat)
 }
