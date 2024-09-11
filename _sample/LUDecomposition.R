@@ -30,6 +30,8 @@ lu_decomposition <- function(matrix_a) {
 forward_elim_determinant <- function(matrix_u) {
   # Get the dimensions of matrix_a
   n <- nrow(matrix_u)
+
+  # Calculate determinant
   determinant <- 1
   for (i in 1:n) {
     determinant <- determinant * matrix_u[i, i]
