@@ -27,6 +27,17 @@ lu_decomposition <- function(matrix_a) {
   list(L = matrix_l, U = matrix_u)
 }
 
+forward_elim_determinant <- function(matrix_u) {
+  # Get the dimensions of matrix_a
+  n <- nrow(matrix_u)
+  determinant <- 1
+  for (i in 1:n) {
+    determinant <- determinant * matrix_u[i, i]
+  }
+
+  determinant
+}
+
 # Example
 
 matrix_a <- matrix(
@@ -35,4 +46,12 @@ matrix_a <- matrix(
   ncol = 3
 )
 
-print(lu_decomposition(matrix_a))
+cat("LU Decomposition: \n")
+triangles <- lu_decomposition(matrix_a)
+matrix_l <- triangles$L
+matrix_u <- triangles$U
+print(matrix_l)
+print(matrix_u)
+cat("\nDeterminant: ")
+print(forward_elim_determinant(matrix_u))
+cat("\n")
