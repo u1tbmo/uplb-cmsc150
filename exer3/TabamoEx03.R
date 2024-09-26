@@ -19,14 +19,14 @@ LUDecomposition <- function(mat) {
   if (!SquareMatrix(mat)) {
     return(NA)
   }
-  
+
   # Dimensions of the matrix
   n <- nrow(mat)
-  
+
   # Set up the L and U matrices
   matrix_l <- diag(x = 1, nrow = n)
   matrix_u <- mat
-  
+
   # Iterate over the pivot rows
   for (i in 1:(n - 1)) {
     # If the matrix is singular, LU decomposition cannot proceed
@@ -42,7 +42,7 @@ LUDecomposition <- function(mat) {
       matrix_u[j, ] <- matrix_u[j, ] - multiplier * matrix_u[i, ]
     }
   }
-  
+
   # Return the list containing the original matrix, the resulting
   # L and U matrices, and the result of the LU matrix multiplication
   # A = LU is always true
