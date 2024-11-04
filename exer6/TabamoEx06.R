@@ -195,7 +195,7 @@ RegressionPlotter <- function(order, matrix, plot_name = "Polynomial Regression"
   }
 
   # Get the directory of the current script
-  current_dir <- dirname(sys.frame(1)$ofile)
+  current_dir <- getwd()
 
   # Create a png file with the plot in the current directory
   png(file.path(current_dir, paste0(plot_name, ".png")), width = 1000, height = 1000, pointsize = 24)
