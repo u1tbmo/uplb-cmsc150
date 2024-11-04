@@ -135,21 +135,35 @@ PolynomialRegression <- function(order, matrix) {
     )
   }
 
-  # Create the polynomial string then iterate over the coefficients
+  # Create another coefficient vector that is full positive
+  coefficient_magnitudes <- c()
+  for (c in coefficients) {
+    if (c < 0) {
+      coefficient_magnitudes <- c(coefficient_magnitudes, -c)
+    } else {
+      coefficient_magnitudes <- c(coefficient_magnitudes, c)
+    }
+  }
+
+  # Create the polynomial string then iterate over the coefficients/magnitudes
   # to add the terms to the polynomial string
   polynomial_string <- ""
   for (i in 0:order) {
     if (i == 0) { # Constant term, since x^0 = 1
-      polynomial_string <- paste0(polynomial_string, coefficients[i + 1])
+      polynomial_string <- paste0(polynomial_string, coefficients[i + 1]) # We care about the sign of this term
     } else if (i == 1) { # Linear term, since x^1 = x
-      polynomial_string <- paste0(polynomial_string, coefficients[i + 1], "*x")
+      polynomial_string <- paste0(polynomial_string, coefficient_magnitudes[i + 1], "*x")
     } else { # Polynomial terms, x^i
-      polynomial_string <- paste0(polynomial_string, coefficients[i + 1], "*x^", i)
+      polynomial_string <- paste0(polynomial_string, coefficient_magnitudes[i + 1], "*x^", i)
     }
 
-    # Add a plus sign to separate terms
+    # Add a plus or negative sign to separate terms
     if (i != order) {
-      polynomial_string <- paste0(polynomial_string, " + ")
+      if (coefficients[i + 2] >= 0) {
+        polynomial_string <- paste0(polynomial_string, " + ")
+      } else {
+        polynomial_string <- paste0(polynomial_string, " - ")
+      }
     }
   }
 
@@ -244,8 +258,8 @@ plants_matrix <- matrix(
 # Unsolvable case due to repeated x values
 unsolvable_matrix <- matrix(
   c(
-    1, 1, 1,    # repeated x values
-    2.0, 4.0, 8.0  # different y values
+    1, 1, 1, # repeated x values
+    2.0, 4.0, 8.0 # different y values
   ),
   ncol = 2,
   dimnames = list(
