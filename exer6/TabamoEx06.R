@@ -135,7 +135,7 @@ PolynomialRegression <- function(order, matrix) {
     )
   }
 
-  # Create another coefficient vector that is full positive
+  # Create another coefficient vector that is fully positive
   coefficient_magnitudes <- c()
   for (c in coefficients) {
     if (c < 0) {
